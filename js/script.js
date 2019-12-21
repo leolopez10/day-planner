@@ -11,23 +11,27 @@ var currentDayEl = $("#currentDay");
 // var saveBtn = $(".saveBtn");
 //**************************************************************** */
 
+console.log(moment().clone())
+
 //make an array of times
-var times = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+var times = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM"];
 
 //Get current date for the header and display it.
-var currentDate = moment().format('LL');
+// var currentDate = moment().format('LL');
+var currentDate = moment().format('MMMM Do YYYY, h:mm');
 currentDayEl.text(currentDate);
 
-for(var i = 0; i < times.length; i++){
+for (var i = 0; i < times.length; i++) {
     createTimeBlock();
+    saveToBrowser();
+
 }
 
-createTimeBlock();
 
 // createTimeBlock();
 
 //create timeblocks that follow my html
-function createTimeBlock(){
+function createTimeBlock() {
     //Create container element
     var containerEl = $(".container");
     //create timeblock
@@ -45,16 +49,13 @@ function createTimeBlock(){
     //create hour div
     var hourEl = $("<div>");
     hourEl.addClass("hour");
-
-    // hourEl.text(times[i]);
-
+    //look up how to formate these number into time
+    hourEl.text(times[i]);
     contentEl.append(hourEl);
-     //create textarea for discription
+    //create textarea for discription
     var text = $("<textarea>");
     text.addClass("description past")
-
-    // text.attr("data-hour", times[i]);
-
+    text.attr("data-hour", times[i]);
     contentEl.append(text);
     //create a save button
     var saveBtn = $("<button>");
@@ -64,35 +65,26 @@ function createTimeBlock(){
 
 
 
-}
 
 
-function createTime1Block(hour) {
-    var row = createEl("div", "row");
-    var timeBlock = createEl("div", "time-block");
-    timeBlock.appendChild(row);
-    var colHour = createEl("div", "hour", hour);
-    row.appendChild(colHour);
-    var colText = createEl("textarea", "description", hour );
-    row.appendChild(colText);
-    var colSave = createEl("button", "saveBtn");
-    row.appendChild(colSave);
+    saveBtn.on("click", function () {
+        var saveInLocal = $(this).prev(".description");
+        var hour = saveInLocal.attr("data-hour");
+        var text = saveInLocal.val();
+        localStorage.setItem(hour, text);
+    })
 
     return timeBlock;
+
 }
 
 
+// handleSave();
+//Store description after clicking save button for each hour
+function saveToBrowser() {
 
 
-
-
-
-
-
-
-
-
-
+}
 
 
 //******************************************************** */
@@ -101,24 +93,15 @@ function createTime1Block(hour) {
 // renderDescription();
 // renderRow();
 
-// handleSave();
-//Store description after clicking save button for each hour
 
 
-function handleSave() {
-    var saveInLocal = $(this).siblings(".description");
-    var hour = saveInLocal.attr("data-hour");
-    var text = saveInLocal.val();
-    localStorage.setItem(hour.trim(), text.trim());
-
-}
 // saveBtn.on("click", function (event) {
 //     event.preventDefault();
 //     var descriptionInput = $("#description").val();
 //     localStorage.setItem("description", (descriptionInput));
 
 // })
-    
+
 // //Render the text again if page is left
 // function renderDescription() {
 //     var description = localStorage.getItem("discription");
