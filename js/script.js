@@ -2,36 +2,37 @@
 var containerEl = $(".container");
 var rowEl = $(".row");
 var contentEl = $(".content");
-var hourEl = $(".hour");
 var timeBlock = $(".time-block");
-var saveBtn = document.querySelector(".saveBtn");
-var descriptionEl = document.querySelector("#description");
+var hourEl = $(".hour");
+var currentDayEl = $("#currentDay");
+
+// descriptions for each hour
+var descriptionEl = $("#description");
+var saveBtn = $(".saveBtn");
+
 
 //Call previous description
 renderDescription();
-renderRow();
+// renderRow();
 
-//Store description after clicking save button
-saveBtn.addEventListener("click", function (event) {
+//Get current date for the header and display it.
+moment().format('LL');
+
+//Store description after clicking save button for each hour
+//9am
+saveBtn.on("click", function (event) {
     event.preventDefault();
-    var descriptionInput = document.querySelector("#description").value;
-    localStorage.setItem("description", (descriptionInput));
+    var descriptionInput = $("#description").val();
+    localStorage.setItem("discription", (descriptionInput));
 
 })
-
+    
 //Render the text again if page is left
 function renderDescription() {
-    var description = localStorage.getItem("description");
-    descriptionEl.textContent = description;
+    var description = localStorage.getItem("discription");
+    descriptionEl.text(description);
 }
 
-//Create new elements for the document.
-function renderRow() {
-    var row = document.createElement("div");
-    row.className("col-md-12 content");
-    row.style("background: black;");
-    containerEl.append(row);
 
-}
 
 
